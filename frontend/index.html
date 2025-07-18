@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polytechnic Capstone Portal</title>
+    
+    <!-- Supabase JS Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container" id="app">
+        <!-- Welcome Page -->
+        <div id="welcome-page" class="page active">
+            <div class="welcome-container">
+                <h1>Welcome to Polytechnic Capstone Portal</h1>
+                <h2>Computer science and engineering Department</h2>
+                <p>Form your capstone project teams and select mentors for an amazing final year experience</p>
+                <div class="welcome-options">
+                    <button class="btn btn--primary btn--lg" onclick="showPage('team-registration')">
+                        Team Registration
+                    </button>
+                    <button class="btn btn--secondary btn--lg" onclick="showPage('admin-login')">
+                        Administrator
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Registration - Step 1: Team Details -->
+        <div id="team-registration" class="page">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Team Formation - Step 1</h2>
+                    <div class="progress-bar">
+                        <div class="progress-step active">1</div>
+                        <div class="progress-step">2</div>
+                        <div class="progress-step">3</div>
+                    </div>
+                    <p>Create your team by selecting members from different departments</p>
+                </div>
+                
+                <form id="team-details-form">
+                    <div class="form-group">
+                        <label class="form-label" for="team-name">Team Name *</label>
+                        <input type="text" id="team-name" class="form-control" required 
+                               placeholder="Enter a creative team name">
+                    </div>
+
+                    <div class="form-group member-style">
+
+    <label class="form-label">Team Leader *</label>
+    <div class="member-group">
+        <div class="form-row">
+            <div>
+                <label class="form-label">Department</label>
+                <select id="leader-department" class="form-control" required>
+                    <option value="">Select Department</option>
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Student</label>
+                <select id="team-leader" class="form-control" required>
+                    <option value="">Select Student</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                    <div class="member-selection">
+    <h4>Additional Team Members (Optional)</h4>
+    
+    <!-- Member 2 -->
+    <div class="member-group">
+        <h5>Team Member 2 (Optional)</h5>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="member-2-dept">Department</label>
+                <select id="member-2-dept" class="form-control">
+                    <option value="">Select Department</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="member-2">Student</label>
+                <select id="member-2" class="form-control" disabled>
+                    <option value="">Select Student</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Member 3 -->
+    <div class="member-group">
+        <h5>Team Member 3 (Optional)</h5>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="member-3-dept">Department</label>
+                <select id="member-3-dept" class="form-control">
+                    <option value="">Select Department</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="member-3">Student</label>
+                <select id="member-3" class="form-control" disabled>
+                    <option value="">Select Student</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Member 4 (Optional) -->
+    <div class="member-group">
+        <h5>Team Member 4 (Optional)</h5>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="member-4-dept">Department</label>
+                <select id="member-4-dept" class="form-control">
+                    <option value="">Select Department</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="member-4">Student</label>
+                <select id="member-4" class="form-control" disabled>
+                    <option value="">Select Student</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                    <div id="team-error" class="error-message hidden"></div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--secondary" onclick="showPage('welcome-page')">Back</button>
+                        <button type="submit" class="btn btn--primary">Next: Select Mentors</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Team Registration - Step 2: Mentor Selection -->
+        <div id="mentor-selection" class="page">
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Mentor Selection - Step 2</h2>
+            <div class="progress-bar">
+                <div class="progress-step completed">1</div>
+                <div class="progress-step active">2</div>
+                <div class="progress-step">3</div>
+            </div>
+            <p>Rank your mentor preferences (1st to 4th choice)</p>
+        </div>
+        
+        <form id="mentor-selection-form">
+            <div class="form-group">
+                <label class="form-label" for="mentor-1">First Preference Mentor *</label>
+                <select id="mentor-1" class="form-control" required>
+                    <option value="">Select First Choice</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="mentor-2">Second Preference Mentor *</label>
+                <select id="mentor-2" class="form-control" required>
+                    <option value="">Select Second Choice</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="mentor-3">Third Preference Mentor *</label>
+                <select id="mentor-3" class="form-control" required>
+                    <option value="">Select Third Choice</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="mentor-4">Fourth Preference Mentor *</label>
+                <select id="mentor-4" class="form-control" required>
+                    <option value="">Select Fourth Choice</option>
+                </select>
+            </div>
+
+            <div id="mentor-error" class="error-message hidden"></div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn--secondary" onclick="showPage('team-registration')">Back</button>
+                <button type="submit" class="btn btn--primary">Next: Project Ideas</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+        <!-- Team Registration - Step 3: Project Ideas -->
+        <div id="project-ideas" class="page">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Project Ideas - Step 3</h2>
+                    <div class="progress-bar">
+                        <div class="progress-step completed">1</div>
+                        <div class="progress-step completed">2</div>
+                        <div class="progress-step active">3</div>
+                    </div>
+                    <p>Provide three project ideas for your capstone project</p>
+                </div>
+                
+                <form id="project-ideas-form">
+                    <div class="form-group">
+                        <label class="form-label" for="idea-1">Project Idea 1 *</label>
+                        <textarea id="idea-1" class="form-control" rows="4" required maxlength="500"
+                                  placeholder="Describe your first project idea in detail..."></textarea>
+                        <div class="char-counter" id="idea-1-counter">0/500 characters</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="idea-2">Project Idea 2 *</label>
+                        <textarea id="idea-2" class="form-control" rows="4" required maxlength="500"
+                                  placeholder="Describe your second project idea in detail..."></textarea>
+                        <div class="char-counter" id="idea-2-counter">0/500 characters</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="idea-3">Project Idea 3 *</label>
+                        <textarea id="idea-3" class="form-control" rows="4" required maxlength="500"
+                                  placeholder="Describe your third project idea in detail..."></textarea>
+                        <div class="char-counter" id="idea-3-counter">0/500 characters</div>
+                    </div>
+
+                    <div id="ideas-error" class="error-message hidden"></div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--secondary" onclick="showPage('mentor-selection')">Back</button>
+                        <button type="submit" class="btn btn--primary">Submit Team Registration</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Admin Login -->
+        <div id="admin-login" class="page">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Administrator Login</h2>
+                    <p>Access the administration panel</p>
+                </div>
+                
+                <form id="admin-login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="username">Username</label>
+                        <input type="text" id="username" class="form-control" required 
+                               placeholder="Enter your username">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="form-control" required 
+                               placeholder="Enter your password">
+                    </div>
+
+                    <div id="login-error" class="error-message hidden"></div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--secondary" onclick="showPage('welcome-page')">Back</button>
+                        <button type="submit" class="btn btn--primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <!-- Admin Dashboard -->
+<!-- Admin Dashboard -->
+<div id="admin-dashboard" class="page">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>Administrator Dashboard</h2>
+            <button class="btn btn--secondary" onclick="logout()">Logout</button>
+        </div>
+        
+        <div class="dashboard-options">
+            <div class="card" onclick="showPage('view-teams')">
+                <div class="card__body">
+                    <h3>View Teams</h3>
+                    <p>View all registered teams, export data, and check unregistered students</p>
+                </div>
+            </div>
+            <div class="card" onclick="showPage('mentor-panel')">
+                <div class="card__body">
+                    <h3>Mentor Panel</h3>
+                    <p>Select mentor identity and manage team selections</p>
+                </div>
+            </div>
+            <div class="card" onclick="showPage('team-management')">
+                <div class="card__body">
+                    <h3>Team Management</h3>
+                    <p>Delete teams and manage registrations</p>
+                </div>
+            </div>
+            <div class="card" onclick="showPage('edit-teams')">
+                <div class="card__body">
+                    <h3>Edit Teams</h3>
+                    <p>HOD access to edit team details, members, and preferences</p>
+                </div>
+            </div>
+            <div class="card" onclick="showPage('view-final-list')">
+                <div class="card__body">
+                    <h3>View Final List</h3>
+                    <p>HOD access to view finalized team-mentor-idea assignments</p>
+                </div>
+            </div>
+            <div class="card" onclick="showPage('mentor-edit')">
+                <div class="card__body">
+                    <h3>Mentor Edit</h3>
+                    <p>Mentor access to deselect confirmed teams</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+        <!-- View Teams -->
+        <div id="view-teams" class="page">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h2>Registered Teams</h2>
+                    <div class="dashboard-actions">
+                        <button class="btn btn--primary" onclick="exportTeamsToCSV()">Export Teams (CSV)</button>
+                        <button class="btn btn--secondary" onclick="backToDashboardWithLogout('edit-teams')">Back to Dashboard</button>
+                    </div>
+                </div>
+                
+                <div id="teams-display" class="teams-section">
+                    <div id="teams-list"></div>
+                </div>
+
+                <div id="remaining-students" class="remaining-students-section">
+                    <h3>Unregistered Students</h3>
+                    <p>Students not assigned to any team, organized by department</p>
+                    <div id="remaining-students-display"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Management (Delete Function) -->
+        <div id="team-management" class="page">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h2>Team Management</h2>
+                    <div class="dashboard-actions">
+                        <button class="btn btn--secondary" onclick="showPage('admin-dashboard')">Back to Dashboard</button>
+                    </div>
+                </div>
+                
+                <div class="team-management-section">
+                    <h3>Registered Teams</h3>
+                    <p>Click the delete button to remove individual teams</p>
+                    <div id="teams-management-list" class="teams-management-grid"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Edit Teams (HOD Only) -->
+<div id="edit-teams" class="page">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>Edit Teams (HOD Only)</h2>
+            <div class="dashboard-actions">
+                <button class="btn btn--secondary" onclick="backToDashboardWithLogout('edit-teams')">Back to Dashboard</button>
+            </div>
+        </div>
+        
+        <!-- HOD Login Form -->
+        <div id="hod-login-section" class="hod-login-container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h3>HOD Authentication Required</h3>
+                    <p>Please enter HOD credentials to access team editing features</p>
+                </div>
+                
+                <form id="hod-login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="hod-username">HOD Username</label>
+                        <input type="text" id="hod-username" class="form-control" required 
+                               placeholder="Enter HOD username">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="hod-password">HOD Password</label>
+                        <input type="password" id="hod-password" class="form-control" required 
+                               placeholder="Enter HOD password">
+                    </div>
+
+                    <div id="hod-login-error" class="error-message hidden"></div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary">Login as HOD</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit Teams Dashboard (Hidden until HOD login) -->
+        <div id="edit-teams-dashboard" style="display: none;">
+            <div class="dashboard-header">
+                <h3>Team Editor Dashboard</h3>
+                <div class="dashboard-actions">
+                    <button class="btn btn--secondary" onclick="hodLogout()">HOD Logout</button>
+                </div>
+            </div>
+            
+            <div class="edit-teams-section">
+                <h4>Select Team to Edit</h4>
+                <div id="edit-teams-list" class="edit-teams-grid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- View Final List (HOD Only) -->
+<div id="view-final-list" class="page">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>View Final List (HOD Only)</h2>
+            <div class="dashboard-actions">
+                <button class="btn btn--secondary" onclick="backToDashboardWithLogout('view-final-list')">Back to Dashboard</button>
+            </div>
+        </div>
+        
+        <!-- HOD Login Form -->
+        <div id="final-list-hod-login-section" class="hod-login-container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h3>HOD Authentication Required</h3>
+                    <p>Please enter HOD credentials to access final list</p>
+                </div>
+                
+                <form id="final-list-hod-login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="final-list-hod-username">HOD Username</label>
+                        <input type="text" id="final-list-hod-username" class="form-control" required 
+                               placeholder="Enter HOD username">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="final-list-hod-password">HOD Password</label>
+                        <input type="password" id="final-list-hod-password" class="form-control" required 
+                               placeholder="Enter HOD password">
+                    </div>
+
+                    <div id="final-list-hod-login-error" class="error-message hidden"></div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn--primary">Login as HOD</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Final List Dashboard (Hidden until HOD login) -->
+        <div id="final-list-dashboard" style="display: none;">
+            <div class="final-list-header">
+                <h3>Final Team Assignments</h3>
+                <div class="final-list-actions">
+                    <button class="btn btn--primary" onclick="exportFinalListToCSV()">Download CSV</button>
+                    <button class="btn btn--secondary" onclick="finalListHODLogout()">HOD Logout</button>
+                </div>
+            </div>
+            
+            <div class="final-list-container">
+                <div id="final-list-display">
+                    <!-- Final list table will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Mentor Edit -->
+<!-- Mentor Edit -->
+<div id="mentor-edit" class="page">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>Mentor Edit Panel</h2>
+            <div class="dashboard-actions">
+                <button class="btn btn--secondary" onclick="backToDashboardWithLogout('mentor-edit')">Back to Dashboard</button>
+            </div>
+        </div>
+
+        <div class="mentor-section">
+            <div id="mentor-edit-login-form" class="mentor-login-form">
+                <div class="form-header">
+                    <h3>Mentor Login</h3>
+                    <p>Please login to manage your confirmed teams</p>
+                </div>
+                <div class="input-group">
+                    <label for="mentor-edit-username">Username:</label>
+                    <input type="text" id="mentor-edit-username" placeholder="Enter mentor username" required>
+                </div>
+                <div class="input-group">
+                    <label for="mentor-edit-password">Password:</label>
+                    <input type="password" id="mentor-edit-password" placeholder="Enter mentor password" required>
+                </div>
+                <div id="mentor-edit-login-error" class="error-message hidden"></div>
+                <button type="button" id="mentor-edit-login-btn" class="btn btn--primary">Login as Mentor</button>
+            </div>
+            
+            <div id="mentor-edit-dashboard" style="display: none;">
+                <div class="mentor-info">
+                    <h4>Welcome, <span id="mentor-edit-logged-name"></span>!</h4>
+                    <button id="mentor-edit-logout-btn" class="btn btn--secondary">Logout</button>
+                </div>
+                
+                <div class="mentor-edit-instructions">
+                    <p>Below are your confirmed teams. You can deselect any team, which will remove it from the final list and forward it to the next mentor preference.</p>
+                </div>
+                
+                <div id="mentor-edit-teams-display"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Team Edit Modal -->
+<div id="team-edit-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Edit Team: <span id="edit-team-name">Team Name</span></h3>
+            <button class="modal-close" onclick="closeEditModal()">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <form id="team-edit-form">
+                <input type="hidden" id="edit-team-id" />
+                
+                <!-- Team Name Section -->
+                <div class="edit-section">
+                    <h4>Team Information</h4>
+                    <div class="form-group">
+                        <label class="form-label" for="edit-team-name-input">Team Name</label>
+                        <input type="text" id="edit-team-name-input" class="form-control" required>
+                    </div>
+                </div>
+
+                <!-- Team Leader Section -->
+                <div class="edit-section">
+                    <h4>Team Leader</h4>
+                    <div class="current-leader">
+                        <p><strong>Current Leader:</strong> <span id="current-leader-name">Loading...</span></p>
+                        <button type="button" class="btn btn--secondary btn--sm" onclick="changeLeader()">Change Leader</button>
+                    </div>
+                    
+                    <div id="leader-change-section" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Select New Leader from Team Members</label>
+                            <select id="new-leader-select" class="form-control">
+                                <option value="">Choose new leader</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Members Section -->
+                <div class="edit-section">
+                    <h4>Team Members</h4>
+                    <div id="current-members-list"></div>
+                    <button type="button" class="btn btn--primary btn--sm" onclick="addNewMember()">Add New Member</button>
+                </div>
+
+                <!-- Add New Member Section -->
+                <div id="add-member-section" class="edit-section" style="display: none;">
+                    <h4>Add New Member</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Department</label>
+                            <select id="new-member-dept" class="form-control">
+                                <option value="">Select Department</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Student</label>
+                            <select id="new-member-student" class="form-control" disabled>
+                                <option value="">Select Student</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--primary" onclick="confirmAddMember()">Add Member</button>
+                        <button type="button" class="btn btn--secondary" onclick="cancelAddMember()">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Mentor Preferences Section -->
+                <div class="edit-section">
+                    <h4>Mentor Preferences</h4>
+                    <div class="form-group">
+                        <label class="form-label">First Preference</label>
+                        <select id="edit-mentor-1" class="form-control">
+                            <option value="">Select First Choice</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Second Preference</label>
+                        <select id="edit-mentor-2" class="form-control">
+                            <option value="">Select Second Choice</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Third Preference</label>
+                        <select id="edit-mentor-3" class="form-control">
+                            <option value="">Select Third Choice</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fourth Preference</label>
+                        <select id="edit-mentor-4" class="form-control">
+                            <option value="">Select Fourth Choice</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Project Ideas Section -->
+                <div class="edit-section">
+                    <h4>Project Ideas</h4>
+                    <div class="form-group">
+                        <label class="form-label">Project Idea 1</label>
+                        <textarea id="edit-idea-1" class="form-control" rows="3" maxlength="500"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Project Idea 2</label>
+                        <textarea id="edit-idea-2" class="form-control" rows="3" maxlength="500"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Project Idea 3</label>
+                        <textarea id="edit-idea-3" class="form-control" rows="3" maxlength="500"></textarea>
+                    </div>
+                </div>
+
+                <div id="edit-error" class="error-message hidden"></div>
+                
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn--primary btn--lg">Save Changes</button>
+                    <button type="button" class="btn btn--secondary" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        <!-- Mentor Panel -->
+        <div id="mentor-panel" class="page">
+            <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>Mentor Panel</h2>
+            <div class="dashboard-actions">
+                <button class="btn btn--secondary" onclick="backToDashboardWithLogout('mentor-panel')">Back to Dashboard</button>
+            </div>
+        </div>
+
+        <div class="mentor-section">
+            <div class="mentor-login-form">
+                <div class="input-group">
+                    <label for="mentor-username">Username:</label>
+                    <input type="text" id="mentor-username" placeholder="Enter mentor username" required>
+                </div>
+                <div class="input-group">
+                    <label for="mentor-password">Password:</label>
+                    <input type="password" id="mentor-password" placeholder="Enter mentor password" required>
+                </div>
+                <button type="button" id="mentor-login-btn" class="btn">Login as Mentor</button>
+            </div>
+            
+            <div id="mentor-dashboard" style="display: none;">
+    <div class="mentor-info">
+        <h4>Welcome, <span id="logged-mentor-name"></span>!</h4>
+        <button id="mentor-logout-btn" class="btn btn--secondary">Logout</button>
+    </div>
+    
+    <div class="mentor-instructions">
+        <p>Below are the teams that have selected you as their mentor preference. You can accept or reject each team. If you reject a team, it will be forwarded to their next mentor preference.</p>
+    </div>
+    
+    <div id="mentor-teams-display"></div>
+</div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- Success Message -->
+        <div id="success-page" class="page">
+            <div class="success-container">
+                <div class="success-message">
+                    <div class="success-icon">✓</div>
+                    <h2>Registration Successful!</h2>
+                    <p>Your team has been registered successfully. You will be notified about mentor assignment soon.</p>
+                    <div class="success-details">
+                        <p><strong>What's next?</strong></p>
+                        <ul>
+                            <li>Mentors will review all team applications</li>
+                            <li>You'll receive confirmation of your assigned mentor</li>
+                            <li>Project development will begin with your mentor's guidance</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn--primary" onclick="showPage('welcome-page')">Back to Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Finalize Idea Modal -->
+<div id="finalize-idea-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Finalize Idea for <span id="finalize-team-name">Team Name</span></h3>
+            <button class="modal-close" onclick="closeFinalizeIdeaModal()">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <form id="finalize-idea-form">
+                <input type="hidden" id="finalize-team-id" />
+                
+                <div class="edit-section">
+                    <h4>Select an Idea</h4>
+                    <div id="idea-options" class="idea-options"></div>
+                </div>
+
+                <div class="edit-section">
+                    <h4>Add New Idea (Optional)</h4>
+                    <textarea id="new-idea-input" class="form-control" rows="3" 
+                              placeholder="Enter a new project idea..."></textarea>
+                    <button type="button" class="btn btn--secondary btn--sm" 
+                            onclick="addIdeaOption()">Add Idea</button>
+                </div>
+
+                <div id="finalize-error" class="error-message hidden"></div>
+            </form>
+        </div>
+        
+        <div class="modal-actions">
+            <button type="button" class="btn btn--primary btn--lg" onclick="confirmFinalizeIdea()">
+                Confirm Final Idea
+            </button>
+            <button type="button" class="btn btn--secondary" onclick="closeFinalizeIdeaModal()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+    <!-- Load JavaScript files -->
+    <script src="app.js"></script>
+</body>
+</html>
