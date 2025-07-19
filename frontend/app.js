@@ -59,7 +59,7 @@ async function getTeams() {
 // Add this function to handle leader department selection
 // Add this in your DOMContentLoaded or initialization function
 // Authentication API calls
-const API_BASE_URL = 'http://localhost:3000'; // Change this to your deployed backend URL
+const API_BASE_URL = 'https://capstone-final-p9nf.onrender.com'; // Change this to your deployed backend URL
 
 async function authenticateAdmin(username, password) {
     try {
